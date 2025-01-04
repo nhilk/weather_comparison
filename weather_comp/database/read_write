@@ -1,0 +1,37 @@
+from sqlalchemy.orm import Session
+from database.models import ApiData, init_db, SessionLocal
+
+def write_to_db():
+    # Initialize the database (create tables)
+    init_db()
+
+    # Create a new session
+    session = SessionLocal()
+
+    # Create instances of ApiData
+    api_data1 = ApiData(source='api1', data={"key": "value1"})
+    api_data2 = ApiData(source='api2', data={"key": "value2"})
+
+    # Add instances to the session
+    session.add(api_data1)
+    session.add(api_data2)
+
+    # Commit the session to write to the database
+    session.commit()
+
+    # Close the session
+    session.close()
+
+def read_from_db():
+    # Create a new session
+    session = SessionLocal()
+
+    # Query the database
+    api_data_entries = session.query(ApiData).all()
+
+    # Print the results
+    for entry in api_data_entries:
+        print(f"ID: {entry.id}, Source: {entry.source}, Data: {entry.data}, Timestamp: {entry.timestamp}")
+
+    # Close the session
+    session.close()
