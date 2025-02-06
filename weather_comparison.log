@@ -1,5 +1,0 @@
-2025-02-06 17:11:37,184 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.weather.gov:443
-2025-02-06 17:11:38,295 - urllib3.connectionpool - DEBUG - https://api.weather.gov:443 "GET /points/26.16123,-81.80686 HTTP/1.1" 301 481
-2025-02-06 17:11:38,326 - urllib3.connectionpool - DEBUG - https://api.weather.gov:443 "GET /points/26.1612,-81.8069 HTTP/1.1" 200 797
-2025-02-06 17:11:38,327 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.weather.gov:443
-2025-02-06 17:11:38,476 - urllib3.connectionpool - DEBUG - https://api.weather.gov:443 "GET /gridpoints/MFL/45,61/forecast HTTP/1.1" 200 1310
