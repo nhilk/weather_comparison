@@ -6,9 +6,11 @@ def get_forcast_url(lat, long):
     url = f"https://api.weather.gov/points/{lat},{long}"
 
     response = requests.get(url)
+
     if response.status_code == 200:
         data = response.json()
-        return data['properties']['forecastHourly']
+        #print(data)
+        return data['properties']['forecast']
     else:
         None
 
@@ -26,6 +28,3 @@ def get_nsw(lat, long):
     if forcast_url is None:
         return None
     return get_weather_forcast(forcast_url)
-
-if __name__ == "__main__":
-    print(get_nsw(26.16123,-81.80686))

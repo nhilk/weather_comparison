@@ -8,3 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+
+#config files
+config.toml
+weather_comp/database/db_config.toml
+notes.md
