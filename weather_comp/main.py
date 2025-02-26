@@ -1,7 +1,8 @@
-from api.nws_api import get_nsw
+from api.nws_api import get_nsw, transform_data_facts
 import toml
 import logging
 from database import DB
+import polars as pl
 
 logging.basicConfig(
     filename='weather_comparison.log',  # Specify the log file name
@@ -20,8 +21,15 @@ def main():
     database = DB(logger)
     data = get_nsw(config['lat'],config['long'])
     database.write_to_api_table('nsw', data)
-    # with open('/home/hilkshake/documents/weather_comparison/weather_comp/nsw_data.json', 'w') as json_file:
-    #     json.dump(data, json_file)
-
+    location_data = {
+        'city': config['city'],
+        'state': config['state'],
+        'country': config['country'],
+        'latitude': config['lat'],
+        'longitude': config['long']
+    }
+    location_id = database.write_to_dim_location(location_data)
+    transformed_data = transform_data_facts(data, location_id)
+    database.write_to_fact_weather(transformed_data)
 if __name__ == "__main__":
     main()
