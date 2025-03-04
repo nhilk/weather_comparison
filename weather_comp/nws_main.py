@@ -1,4 +1,4 @@
-from api.nws_api import get_nsw, transform_data_facts
+from api.nws_api import get_nws, transform_data_facts
 import toml
 import logging
 from database import DB
@@ -18,8 +18,8 @@ def get_config():
 def main():
     logger = logging.getLogger(__name__)
     config = get_config()
-    database = DB(logger)
-    data = get_nsw(config['lat'],config['long'])
+    database = DB(logger, config)
+    data = get_nws(config['lat'],config['long'])
     database.write_to_api_table('nsw', data)
     location_data = {
         'city': config['city'],

@@ -14,3 +14,5 @@ config.toml
 weather_comp/database/db_config.toml
 notes.md
 weather_comparison.log
+weather_comp/api/weather_station_keys.toml
+nsw_data.json

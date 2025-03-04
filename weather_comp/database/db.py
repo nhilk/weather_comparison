@@ -7,15 +7,12 @@ import toml
 import logging
 
 class DB:
-    def __init__(self, logger):
+    def __init__(self, logger, config):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('connecting to the database')
-        self.load_config()
-        self.engine = create_engine(self.config['db_url'], echo=True)
+        self.config = config
+        self.engine = create_engine(self.config['database']['db_url'], echo=True)
         init_db(self.engine)
-        
-    def load_config(self):
-        self.config = toml.load('weather_comp/database/db_config.toml')
         
     def write_to_api_table(self, source, json_data):
         if json_data is None:
@@ -52,8 +49,11 @@ class DB:
         
         with Session(self.engine) as session, session.begin():         
             # Check if the location already exists
-            
-            existing_location = session.scalars(select(dim_location).filter_by(city=data['city'], state=data['state'], country=data['country']))
+            try:
+                existing_location = session.scalars(select(dim_location).filter_by(city=data['city'], state=data['state'], country=data['country']))
+            except Exception as e:
+                self.logger.error(f"Error checking for existing location: {e}")
+                raise ValueError("Error checking for existing location")
             if existing_location:
                 location_id = session.scalars(select(dim_location.id).filter_by(city=data['city'], state=data['state'], country=data['country'])).first
                 self.logger.info(F"Location already exists in the database with id {location_id}")
