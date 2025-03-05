@@ -7,7 +7,7 @@ import polars as pl
 import logging
 
 class DB:
-    def __init__(self, logger, config):
+    def __init__(self, config):
         self.logger = logging.getLogger(__name__)
         self.logger.debug('connecting to the database')
         self.config = config
@@ -67,13 +67,15 @@ class DB:
             raise ValueError("No data to write to the database")
         
         with Session(self.engine) as session, session.begin():
+            location_id = None
             try:        
                 location_id = session.query(dim_location).filter(and_(dim_location.latitude == location_data['latitude'],
-                                                                         dim_location.longitude == location_data['longitude'])).all()
+                                                                         dim_location.longitude == location_data['longitude'])).all()                                                                   
             except Exception as e:
                 self.logger.error(f"Error querying dim_location table when looking for a duplicate location: {e}")
-            if len(location_id) > 0:
-                return location_id[0]
+                raise ValueError("Error querying dim_location table when looking for a duplicate location")
+            if len(location_id)>0:
+                return location_id[0].id
             else:
                 try:
                     location_frame = pl.DataFrame(location_data)
