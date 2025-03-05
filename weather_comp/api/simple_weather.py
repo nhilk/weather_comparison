@@ -1,7 +1,5 @@
-import asyncio
 import logging
 import socketio
-import toml
 from database.db import DB
 from database.models import ApiData
 import logging
@@ -41,14 +39,3 @@ async def get_weather_station_data(config):
     await database.close()
     print("Disconnected from Ambient Weather API")
     
-def transform_data_facts(ambient_data, location_id):
-    '''
-        Transform the data into a format that can be used to create the fact_weather table.
-    '''
-    if ambient_data is None:
-        raise ValueError("Data is required")
-    try:
-        # Extract the relevant data from the JSON response
-        pass
-    except Exception as e:
-        raise ValueError(f"Error transforming data: {e}")

@@ -1,7 +1,11 @@
-from sqlalchemy import Column, Integer, String, JSON, Float, DateTime
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, JSON, Float, DateTime, Boolean, MetaData
+from sqlalchemy.orm import DeclarativeBase
 
-Base = declarative_base()
+
+schema = MetaData(schema="weather_comp")
+
+class Base(DeclarativeBase):
+    metadata = schema
 
 class ApiData(Base):
     '''
@@ -10,6 +14,8 @@ class ApiData(Base):
     __tablename__ = 'api_data'
     id = Column(Integer, primary_key=True, autoincrement=True)
     source = Column(String, nullable=False)
+    date = Column(DateTime, nullable=False)
+    ingested = Column(Boolean, nullable=True)
     data = Column(JSON, nullable=False)
 
 class fact_weather(Base):
@@ -20,9 +26,9 @@ class fact_weather(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(DateTime, nullable=False)
     location_id = Column(Integer, nullable=False)
-    temperature = Column(Float, nullable=False)
-    pressure = Column(Float, nullable=False)
-    cloud_cover = Column(Float, nullable=False) 
+    temperature = Column(Float, nullable=True)
+    pressure = Column(Float, nullable=True)
+    cloud_cover = Column(Float, nullable=True) 
 
 class dim_location(Base):
     '''
