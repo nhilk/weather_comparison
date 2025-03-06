@@ -7,6 +7,14 @@ from database.db import DB
 from database.models import ApiData, fact_weather, dim_location
 import polars as pl
 import datetime
+import logging
+
+logging.basicConfig(
+    filename='weather_comparison_db_testing.log',  # Specify the log file name
+    level=logging.DEBUG,  # Set the logging level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    filemode='w',  # Mode: 'w' to overwrite, 'a' to append
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s' # Define the log message format
+)
 
 @pytest.fixture(scope='module')
 def mock_config():
@@ -33,11 +41,19 @@ def mock_data(time):
             ]
         }
     }
+@pytest.fixture
+def mock_location_data():
+    return {
+        'city': 'test',
+        'state': 'test_state',
+        'country': 'test_country',
+        'latitude': 26.16123,
+        'longitude': -81.80686
+    }
 
 @pytest.fixture(scope='module')
-@patch('database.db.logging')
-def test_db(mock_logger, mock_config):
-    return DB(mock_logger, mock_config)
+def test_db(mock_config):
+    return DB(mock_config)
 
 def test_write_to_api_table_negative(test_db):
     with pytest.raises(TypeError) as context:
@@ -50,14 +66,24 @@ def test_write_to_api_table(test_db, time, mock_data):
     df = pl.DataFrame(data)
     assert df.shape[0] == 1
 
-def test_write_to_dim_location(test_db):
-    loc_id = test_db.write_to_dim_location({'city': 'test', 'state':'test_state', 'country':'test_country', 'latitude': 26.16123, 'longitude': -81.80686})
+def test_check_existing_location_negative(test_db):
+    lat, long = None, None
+    #check that the function raises a ValueError when lat and long are None
+    with pytest.raises(TypeError) as context:
+        test_db.check_existing_location(lat, long)
+    assert "are not valid types for latitude and longitude" in str(context.value)
+    
+def test_write_to_dim_location(test_db, mock_location_data):
+    loc_id = test_db.write_to_dim_location(mock_location_data)
     print(f'loc_id = {loc_id}')
     data = test_db.read_from_dim_location(dim_location.latitude == 26.16123)
     df = pl.DataFrame(data)
     print(f'data = {data}, df = {df}')
     assert df.shape[0] == 1
 
+def test_check_existing_location(test_db, mock_location_data):
+    loc_id = test_db.write_to_dim_location(mock_location_data)
+    assert test_db.check_existing_location(26.16123, -81.80686) == loc_id
 
 def test_write_to_fact_weather(test_db, time,mock_data):
     df = pl.DataFrame({

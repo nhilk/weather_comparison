@@ -20,7 +20,7 @@ class DB:
 
     def write_to_api_table(self, source, json_data, date=None):
         if not isinstance(json_data, dict):
-            self.logger("No/incorrect data to write to the database")
+            self.logger.error("No/incorrect data to write to the database")
             raise TypeError("No/incorrect data to write to the database")
 
         with Session(self.engine) as session, session.begin():
@@ -61,21 +61,28 @@ class DB:
                 fact_weather_entries = session.query(fact_weather).all()
                 return fact_weather_entries
 
+    def check_existing_location(self, lat: float, long: float) -> int:
+        if not isinstance(lat, float) or not isinstance(long, float):
+            raise TypeError(f'{type(lat)} and {type(long)} are not valid types for latitude and longitude')
+        with Session(self.engine) as session, session.begin():
+            location_id = session.query(dim_location).filter(and_(dim_location.latitude == lat,
+                                                                         dim_location.longitude == long)).all()
+            if len(location_id)>0:
+                return location_id[0].id
+            else:
+                return None
+
     def write_to_dim_location(self, location_data):
         if not isinstance(location_data, dict):
             self.logger.error("No data to write to the database")
             raise ValueError("No data to write to the database")
         
         with Session(self.engine) as session, session.begin():
-            location_id = None
-            try:        
-                location_id = session.query(dim_location).filter(and_(dim_location.latitude == location_data['latitude'],
-                                                                         dim_location.longitude == location_data['longitude'])).all()                                                                   
-            except Exception as e:
-                self.logger.error(f"Error querying dim_location table when looking for a duplicate location: {e}")
-                raise ValueError("Error querying dim_location table when looking for a duplicate location")
-            if len(location_id)>0:
-                return location_id[0].id
+            
+            location_id = self.check_existing_location(location_data['latitude'], location_data['longitude'])
+            if location_id is not None:
+                self.logger.info(f"Location already exists in the database with id {location_id}")
+                return location_id
             else:
                 try:
                     location_frame = pl.DataFrame(location_data)
