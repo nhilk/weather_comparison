@@ -106,6 +106,7 @@ def test_write_to_fact_weather(test_db, time, mock_data):
         {
             "date": [time.isoformat(), time.isoformat()],
             "location_id": 1,
+            'source': 'https://api.weather.gov',
             "temperature": [75, 76],
             "pressure": [None, None],
             "cloud_cover": [None, None],

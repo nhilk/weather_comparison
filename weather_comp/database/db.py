@@ -40,10 +40,10 @@ class DB:
             return False
 
     def write_to_api_table(
-        self, source: str, json_data: pl.DataFrame, date: datetime = None
+        self, source: str, json_data: dict, date: datetime = None
     ) -> None:
         print(f' write_to_api_table json type{json_data}')
-        if not isinstance(json_data, pl.DataFrame):
+        if not isinstance(json_data, dict):
             self.logger.error(f"type: {type(json_data)} not of {pl.DataFrame} cannont write to api table")
             raise TypeError(
                 f"type: {type(json_data)} not of {pl.DataFrame} cannont write to api table"
@@ -125,8 +125,8 @@ class DB:
 
     def write_to_dim_location(self, location_frame: pl.DataFrame) -> int:
         if not isinstance(location_frame, pl.DataFrame):
-            self.logger.error("No data to write to the database")
-            raise ValueError("No data to write to the database")
+            self.logger.error(f"type: {type(location_frame)} not of {pl.DataFrame} cannont write to api table")
+            raise ValueError(f"type: {type(location_frame)} not of {pl.DataFrame} cannont write to api table")
 
         with Session(self.engine) as session, session.begin():
             location_id = self.check_existing_location(

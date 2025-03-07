@@ -25,6 +25,7 @@ class fact_weather(Base):
     __tablename__ = 'fact_weather'
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(DateTime, nullable=False)
+    source = Column(String, nullable=False)
     location_id = Column(Integer, nullable=False)
     temperature = Column(Float, nullable=True)
     pressure = Column(Float, nullable=True)

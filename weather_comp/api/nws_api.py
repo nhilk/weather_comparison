@@ -1,6 +1,7 @@
 import requests
 import polars as pl
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -11,8 +12,6 @@ def get_forecast_url(lat:str, long:str)->str:
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        with open('nws_data_2.json', 'w') as f:
-            f.write(data['properties'].__str__())
         combined_endpoint = data['properties']['forecastHourly'] +"?units=us"
         return combined_endpoint
     else:
@@ -24,13 +23,13 @@ def get_nws_forecast(lat:str, long:str)->pl.DataFrame:
         raise ValueError("Cannot get forecast url is not valid")
     response = requests.get(url)
     if response.status_code == 200:
-        weather = response.json()
-        weather['source'] = "https://api.weather.gov"
-        return pl.DataFrame(response.json())
+        df =  pl.DataFrame(response.json(), strict=False)
+        df.with_columns(source = pl.Series(["https://api.weather.gov" for _ in range(df.shape[0])]))
+        return df
     else:
         raise ValueError("Unable to get weather forecast")
 
-def transform_data_facts(nws_data, location_id):
+def transform_data_facts(nws_data: dict, location_id: int) -> pl.DataFrame:
     '''
         Transform the data into a format that can be used to create the fact_weather table.
     '''

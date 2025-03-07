@@ -46,6 +46,7 @@ def transform_data_facts(ambient_data, location_id: int) -> pl.DataFrame:
         # Extract the relevant data from the JSON response
         df = pl.DataFrame({
             'date': ambient_data['date'],
+            'source': 'ambient_weather',
             'location_id': location_id,
             'temperature': ambient_data['tempf'],
             'pressure': ambient_data['baromrelin'],
