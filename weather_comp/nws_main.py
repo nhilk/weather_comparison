@@ -19,8 +19,6 @@ def main():
     logger = logging.getLogger(__name__)
     config = get_config()
     database = DB(config)
-    data = get_nws_forecast(config['lat'],config['long'])
-    database.write_to_api_table('nsw', data)
     location_data = {
         'city': config['city'],
         'state': config['state'],
@@ -29,6 +27,8 @@ def main():
         'longitude': config['long']
     }
     location_id = database.write_to_dim_location(location_data)
+    data = get_nws_forecast(config['lat'],config['long'])
+    database.write_to_api_table('nsw', data)
     transformed_data = transform_data_facts(data, location_id)
     database.write_to_fact_weather(transformed_data)
 if __name__ == "__main__":

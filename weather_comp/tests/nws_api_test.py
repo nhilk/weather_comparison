@@ -38,19 +38,19 @@ def test_get_forecast_url_valid(mock_logger, mock_forecast_url):
             'properties': {
                 'forecastHourly':'https://api.weather.gov/gridpoints/MFL/52,97/forecast'}}
         mock_get.return_value = mock_response
-        result = get_forecast_url(26.16123, -81.80686)
+        result = get_forecast_url(10.12121, -90.22222)
     assert result == mock_forecast_url
 
 @patch('api.nws_api.logger')
 def test_get_forecast_url_missing_lat(mock_logger):
     with pytest.raises(ValueError) as context:
-        get_forecast_url(None, -81.80686)
+        get_forecast_url(None, -90.22222)
     assert "Latitude and Longitude are required" in str(context.value)
 
 @patch('api.nws_api.logger')
 def test_get_forecast_url_missing_long(mock_logger):
     with pytest.raises(ValueError) as context:
-        get_forecast_url(26.16123, None)
+        get_forecast_url(10.12121, None)
     assert "Latitude and Longitude are required" in str(context.value)
 
 
@@ -61,7 +61,7 @@ def test_get_forecast_url_non_200_response(mock_logger):
         mock_response = Mock()
         mock_response.status_code = 404
         mock_get.return_value = mock_response
-        result = get_forecast_url(26.16123, -81.80686)
+        result = get_forecast_url(10.12121, -90.22222)
     assert result is None
 
 @patch('api.nws_api.logger')
@@ -72,7 +72,7 @@ def test_get_nsw_forecast_valid(mock_logger, mock_weather_data):
         mock_response.status_code = 200
         mock_response.json.return_value = mock_weather_data
         mock_get.return_value = mock_response
-        result = get_nws_forecast(26.16123, -81.80686)
+        result = get_nws_forecast(10.12121, -90.22222)
     assert result['source'] == "https://api.weather.gov"
 
 @patch('api.nws_api.logger')
@@ -84,5 +84,5 @@ def test_get_nsw_forecast_non_200_response(mock_logger, mock_get, mock_url):
         mock_response = Mock()
         mock_response.status_code = 404
         mock_get.return_value = mock_response
-        get_nws_forecast(26.16123, -81.80686)
+        get_nws_forecast(10.12121, -90.22222)
     assert "Unable to get weather forecast" in str(context.value)

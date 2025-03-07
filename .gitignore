@@ -18,3 +18,6 @@ weather_comp/api/weather_station_keys.toml
 nsw_data.json
 weather_comp/weather_comparison_db_testing.log
 .gitignore
+weather_comp/weather_comparison_nws_main.log
+weather_comparison_ambient_main.log
+weather_comparison_nws_main.log

@@ -18,7 +18,7 @@ def get_forecast_url(lat:str, long:str)->str:
     else:
         None
 
-def get_nws_forecast(lat:str, long:str)->dict:
+def get_nws_forecast(lat:str, long:str)->pl.DataFrame:
     url = get_forecast_url(lat, long)
     if url is None:
         raise ValueError("Cannot get forecast url is not valid")
@@ -26,7 +26,7 @@ def get_nws_forecast(lat:str, long:str)->dict:
     if response.status_code == 200:
         weather = response.json()
         weather['source'] = "https://api.weather.gov"
-        return response.json()
+        return pl.DataFrame(response.json())
     else:
         raise ValueError("Unable to get weather forecast")
 

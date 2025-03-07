@@ -1,9 +1,10 @@
-from api.ambient_weather_api import get_weather_station_data
+from api.ambient_weather_api import get_weather_station_data, transform_data_facts
 import toml
 import logging
 from database import DB
 import polars as pl
 import asyncio
+import json
 
 logging.basicConfig(
     filename='weather_comparison_ambient_main.log',  # Specify the log file name
@@ -19,18 +20,18 @@ def get_config():
 async def main():
     logger = logging.getLogger(__name__)
     config = get_config()
-    database = DB(logger, config)
-    data = await get_weather_station_data(config)
+    database = DB(config)
+    data = pl.DataFrame(await get_weather_station_data(config))
     database.write_to_api_table('ambient_weather', data)
-    location_data = {
+    location_data = pl.DataFrame({
         'city': config['city'],
         'state': config['state'],
         'country': config['country'],
         'latitude': config['lat'],
         'longitude': config['long']
-    }
-    #location_id = database.write_to_dim_location(location_data)
-    #transformed_data = transform_data_facts(data, location_id)
-    #database.write_to_fact_weather(transformed_data)
+    })
+    location_id = database.write_to_dim_location(location_data)
+    transformed_data = transform_data_facts(data, location_id)
+    database.write_to_fact_weather(transformed_data)
 if __name__ == "__main__":
     asyncio.run(main())

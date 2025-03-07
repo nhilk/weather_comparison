@@ -28,7 +28,12 @@ class fact_weather(Base):
     location_id = Column(Integer, nullable=False)
     temperature = Column(Float, nullable=True)
     pressure = Column(Float, nullable=True)
-    cloud_cover = Column(Float, nullable=True) 
+    cloud_cover = Column(Float, nullable=True)
+    humidity = Column(Integer, nullable=True)
+    wind_direction = Column(Integer, nullable=True)
+    wind_speed = Column(Float, nullable=True)
+    wind_gust = Column(Float, nullable=True)
+    daily_precipitation = Column(Float, nullable=True)
 
 class dim_location(Base):
     '''

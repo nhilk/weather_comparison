@@ -34,26 +34,30 @@ def time():
 
 @pytest.fixture
 def mock_data(time):
-    return {
-        "properties": {
-            "forecastHourly": "https://api.weather.gov/gridpoints/MFL/52,97/forecast",
-            "periods": [
-                {"temperature": 75, "startTime": time.isoformat()},
-                {"temperature": 76, "startTime": time.isoformat()},
-            ],
+    return pl.DataFrame(
+        {
+            "properties": {
+                "forecastHourly": "https://api.weather.gov/gridpoints/MFL/52,97/forecast",
+                "periods": [
+                    {"temperature": 75, "startTime": time.isoformat()},
+                    {"temperature": 76, "startTime": time.isoformat()},
+                ],
+            }
         }
-    }
+    )
 
 
 @pytest.fixture
 def mock_location_data():
-    return {
-        "city": "test",
-        "state": "test_state",
-        "country": "test_country",
-        "latitude": 26.16123,
-        "longitude": -81.80686,
-    }
+    return pl.DataFrame(
+        {
+            "city": "test",
+            "state": "test_state",
+            "country": "test_country",
+            "latitude": 10.12121,
+            "longitude": -90.22222,
+        }
+    )
 
 
 @pytest.fixture(scope="module")
@@ -66,7 +70,7 @@ def test_write_to_api_table_negative(test_db):
         test_db.write_to_api_table(
             "https://api.weather.gov", "This is not a dictionary"
         )
-    assert "No/incorrect data to write to the database" in str(context.value)
+    assert "cannont write to api table" in str(context.value)
 
 
 def test_write_to_api_table(test_db, time, mock_data):
@@ -86,7 +90,7 @@ def test_check_existing_location_negative(test_db):
 def test_write_to_dim_location(test_db, mock_location_data):
     loc_id = test_db.write_to_dim_location(mock_location_data)
     print(f"loc_id = {loc_id}")
-    data = test_db.read_from_dim_location(dim_location.latitude == 26.16123)
+    data = test_db.read_from_dim_location(dim_location.latitude == 10.12121)
     df = pl.DataFrame(data)
     print(f"data = {data}, df = {df}")
     assert df.shape[0] == 1
@@ -94,7 +98,7 @@ def test_write_to_dim_location(test_db, mock_location_data):
 
 def test_check_existing_location(test_db, mock_location_data):
     loc_id = test_db.write_to_dim_location(mock_location_data)
-    assert test_db.check_existing_location(26.16123, -81.80686) == loc_id
+    assert test_db.check_existing_location(10.12121, -90.22222) == loc_id
 
 
 def test_write_to_fact_weather(test_db, time, mock_data):
