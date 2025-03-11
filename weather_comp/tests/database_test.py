@@ -11,7 +11,7 @@ import datetime
 import logging
 
 logging.basicConfig(
-    filename="weather_comparison_db_testing.log",  # Specify the log file name
+    filename="logs/weather_comparison_db_testing.log",  # Specify the log file name
     level=logging.DEBUG,  # Set the logging level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL)
     filemode="w",  # Mode: 'w' to overwrite, 'a' to append
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",  # Define the log message format
@@ -34,8 +34,7 @@ def time():
 
 @pytest.fixture
 def mock_data(time):
-    return pl.DataFrame(
-        {
+    return        {
             "properties": {
                 "forecastHourly": "https://api.weather.gov/gridpoints/MFL/52,97/forecast",
                 "periods": [
@@ -44,7 +43,6 @@ def mock_data(time):
                 ],
             }
         }
-    )
 
 
 @pytest.fixture

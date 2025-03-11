@@ -17,15 +17,15 @@ def get_forecast_url(lat:str, long:str)->str:
     else:
         None
 
-def get_nws_forecast(lat:str, long:str)->pl.DataFrame:
+def get_nws_forecast(lat:str, long:str)->dict:
     url = get_forecast_url(lat, long)
     if url is None:
         raise ValueError("Cannot get forecast url is not valid")
     response = requests.get(url)
     if response.status_code == 200:
-        df =  pl.DataFrame(response.json(), strict=False)
-        df.with_columns(source = pl.Series(["https://api.weather.gov" for _ in range(df.shape[0])]))
-        return df
+        data = response.json()
+        data['source'] = "https://api.weather.gov"
+        return data
     else:
         raise ValueError("Unable to get weather forecast")
 
@@ -49,6 +49,7 @@ def transform_data_facts(nws_data: dict, location_id: int) -> pl.DataFrame:
         # Create a DataFrame using Polars
         df = pl.DataFrame({
             'date': date,
+            'source': nws_data['source'],
             'location_id': location_id,
             'temperature': temperature,
             'pressure': pressure,

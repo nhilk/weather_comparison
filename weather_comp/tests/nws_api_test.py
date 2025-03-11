@@ -78,7 +78,7 @@ def test_get_nsw_forecast_valid(mock_logger, mock_weather_data):
 @patch('api.nws_api.logger')
 @patch('api.nws_api.requests.get')
 @patch('api.nws_api.get_forecast_url')
-def test_get_nsw_forecast_non_200_response(mock_logger, mock_get, mock_url):
+def test_get_nsw_forecast_non_200_response(mock_logger, mock_get, mock_url, mock_forecast_url):
     with pytest.raises(ValueError) as context:
         mock_url.return_value = mock_forecast_url
         mock_response = Mock()

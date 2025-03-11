@@ -3,6 +3,9 @@ import socketio
 import logging
 import asyncio
 import polars as pl
+from datetime import datetime
+import pytz
+
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +29,7 @@ async def get_weather_station_data(config):
     async def data(data):
         global event_received
         event_received = True
-        print(data)
+        print(f'type = {type(data)}\n{data}')
         # Set the data to be returned
         sio.data = data
 
@@ -34,9 +37,10 @@ async def get_weather_station_data(config):
     while not event_received:
         await sio.sleep(1)
     await sio.disconnect()
-    return pl.DataFrame(sio.data)
+    sio.data['source'] = "https://ambientweather.net"
+    return sio.data
 
-def transform_data_facts(ambient_data, location_id: int) -> pl.DataFrame:
+def transform_data_facts(ambient_data: dict, location_id: int) -> pl.DataFrame:
     '''
         Transform the data into a format that can be used to create the fact_weather table.
     '''
@@ -45,8 +49,8 @@ def transform_data_facts(ambient_data, location_id: int) -> pl.DataFrame:
     try:
         # Extract the relevant data from the JSON response
         df = pl.DataFrame({
-            'date': ambient_data['date'],
-            'source': 'ambient_weather',
+            'date': datetime.fromisoformat(ambient_data['date']),
+            'source': ambient_data['source'],
             'location_id': location_id,
             'temperature': ambient_data['tempf'],
             'pressure': ambient_data['baromrelin'],
