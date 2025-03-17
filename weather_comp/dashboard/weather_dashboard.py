@@ -1,7 +1,10 @@
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
-import pandas as pd
-from database import DB
+import polars as pl
+import sys
+import os
+sys.path.append(os.path.abspath(""))
+from database.db import DB
 import logging
 import toml
 
@@ -13,30 +16,32 @@ logging.basicConfig(
 )
 
 def get_config():
-    config = toml.load('weather_comp/config.toml')
+    config = toml.load('config.toml')
     return config
 
 config = get_config()
 db = DB(get_config())
 
-df = db.read_from_fact_weather()
-
+df = db.read_from_table(table = 'source_comparison')
 app = Dash()
 
 # Requires Dash 2.17.0 or later
 app.layout = [
     html.H1(children='Title of Dash App', style={'textAlign':'center'}),
-    dcc.Dropdown(df.col('source').unique(), 'Canada', id='dropdown-selection'),
+    dcc.Dropdown(df.get_column('source1').unique().to_list(), id='dropdown1'),
+    dcc.Dropdown(df.get_column('source2').unique().to_list(), id='dropdown2'),
     dcc.Graph(id='graph-content')
 ]
 
 @callback(
     Output('graph-content', 'figure'),
-    Input('dropdown-selection', 'value')
+    [Input('dropdown1', 'value'),
+    Input('dropdown2', 'value')]
+    
 )
-def update_graph(value):
-    dff = df[df.country==value]
-    return px.line(dff, x='year', y='pop')
+def update_graph(source1, source2):
+    dff = df.filter((pl.col('source1') == source1) & (pl.col('source2') == source2))
+    return px.line(dff, x='date1', y='temperature')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 

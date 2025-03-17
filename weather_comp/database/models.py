@@ -21,6 +21,9 @@ class ApiData(Base):
     ingested = Column(Boolean, nullable=True)
     data = Column(JSON, nullable=False)
 
+    def get_columns():
+        return({c.name: c for c in ApiData.__table__.columns})
+
 
 class FactWeather(Base):
     """
@@ -40,6 +43,9 @@ class FactWeather(Base):
     wind_speed = Column(Float, nullable=True)
     wind_gust = Column(Float, nullable=True)
     daily_precipitation = Column(Float, nullable=True)
+
+    def get_columns():
+        return({c.name: c for c in FactWeather.__table__.columns})
 
 
 class SourceComparison(Base):
@@ -62,6 +68,9 @@ class SourceComparison(Base):
     wind_speed = Column(Float, nullable=True)
     wind_gust = Column(Float, nullable=True)
     daily_precipitation = Column(Float, nullable=True)
+    
+    def get_columns():
+        return({c.name: c for c in SourceComparison.__table__.columns})
 
 
 class DimLocation(Base):
@@ -76,6 +85,9 @@ class DimLocation(Base):
     country = Column(String, nullable=False)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
+
+    def get_columns():
+        return({c.name: c for c in DimLocation.__table__.columns})
 
 
 def init_db(engine):

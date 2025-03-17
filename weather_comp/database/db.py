@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, and_
-from sqlalchemy.sql.expression import Select
+from sqlalchemy import select
 from database.models import (
     ApiData,
     init_db,
@@ -14,6 +14,8 @@ import logging
 
 
 class DB:
+    
+    
     def __init__(self, config):
         self.logger = logging.getLogger(__name__)
         self.logger.debug("connecting to the database")
@@ -76,17 +78,22 @@ class DB:
                 raise e
 
     def read_from_table(
-        self, select_statement: Select = None, table: str = None
+        self, select_statement: select = None, table: str = None
     ) -> pl.DataFrame:
-        if (table not in self.tables.values()) & (table is not None):
+        if (table not in self.tables.keys()) & (table is not None):
             raise ValueError(
                 f"{table} is not a valid table. Please choose from {self.tables.values()}"
             )
         with Session(self.engine) as session, session.begin():
             if select_statement is not None:
-                table_entries = session.execute(select_statement).fetchall()
+                table_entries = session.execute(select_statement).all()
             elif select_statement is None:
-                table_entries = session.query(self.tables[table]).fetchall()
+                table_entries = session.execute(select(self.tables[table]))
+                data = []
+                for row in table_entries:
+                    data.append({col: getattr(row[0], col) for col in row[0].__table__.columns.keys()})
+                print(data)
+                table_entries = data
             return pl.DataFrame(table_entries)
 
     def check_existing_location(self, lat: float, long: float) -> int:

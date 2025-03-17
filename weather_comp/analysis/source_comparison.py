@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.abspath(""))
 from database.db import DB
 from database.models import FactWeather, SourceComparison
-from sqlalchemy.sql.expression import Select
+from sqlalchemy import select
 import polars as pl
 import logging
 import toml
@@ -28,9 +28,6 @@ def main():
     logger = logging.getLogger(__name__)
     config = get_config()
     database = DB(config)
-    distinct_statement = Select(FactWeather.source).distinct()
-    distinct_sources = database.read_from_table(select_statement=distinct_statement)
-
     """
     SELECT s1.source, s2.source, s1.location_id, (s1.temperature - s2.temperature) as temperature
     FROM weather_comp.fact_weather s1, weather_comp.fact_weather s2
@@ -40,7 +37,7 @@ def main():
     """
     s1 = FactWeather.__table__.alias("s1")
     s2 = FactWeather.__table__.alias("s2")
-    source_comp_statement = Select(
+    source_comp_statement = select(
         s1.c.source.label("source1"),
         s2.c.source.label("source2"),
         s1.c.location_id,
