@@ -1,64 +1,38 @@
-2025-03-10 20:56:18,017 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
-2025-03-10 20:56:18,017 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
-2025-03-10 20:56:18,018 - sqlalchemy.engine.Engine - INFO - select current_schema()
-2025-03-10 20:56:18,018 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
-2025-03-10 20:56:18,019 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
-2025-03-10 20:56:18,019 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
-2025-03-10 20:56:18,020 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
-2025-03-10 20:56:18,023 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2025-03-17 14:09:04,032 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-03-17 14:09:04,033 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-03-17 14:09:04,034 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-03-17 14:09:04,034 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-03-17 14:09:04,035 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-03-17 14:09:04,035 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-03-17 14:09:04,036 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-03-17 14:09:04,038 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_namespace.nspname = %(nspname_1)s
-2025-03-10 20:56:18,023 - sqlalchemy.engine.Engine - INFO - [generated in 0.00016s] {'table_name': 'api_data', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
-2025-03-10 20:56:18,025 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2025-03-17 14:09:04,038 - sqlalchemy.engine.Engine - INFO - [generated in 0.00016s] {'table_name': 'api_data', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
+2025-03-17 14:09:04,041 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_namespace.nspname = %(nspname_1)s
-2025-03-10 20:56:18,025 - sqlalchemy.engine.Engine - INFO - [cached since 0.003004s ago] {'table_name': 'fact_weather', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
-2025-03-10 20:56:18,026 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2025-03-17 14:09:04,041 - sqlalchemy.engine.Engine - INFO - [cached since 0.002979s ago] {'table_name': 'fact_weather', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
+2025-03-17 14:09:04,042 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_namespace.nspname = %(nspname_1)s
-2025-03-10 20:56:18,026 - sqlalchemy.engine.Engine - INFO - [cached since 0.004045s ago] {'table_name': 'source_comparison', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
-2025-03-10 20:56:18,027 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2025-03-17 14:09:04,042 - sqlalchemy.engine.Engine - INFO - [cached since 0.003978s ago] {'table_name': 'source_comparison', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
+2025-03-17 14:09:04,043 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_namespace.nspname = %(nspname_1)s
-2025-03-10 20:56:18,027 - sqlalchemy.engine.Engine - INFO - [cached since 0.004974s ago] {'table_name': 'dim_location', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
-2025-03-10 20:56:18,029 - sqlalchemy.engine.Engine - INFO - 
-CREATE TABLE weather_comp.source_comparison (
-	id SERIAL NOT NULL, 
-	location_id INTEGER NOT NULL, 
-	source1 VARCHAR NOT NULL, 
-	source2 VARCHAR NOT NULL, 
-	date1 TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
-	date2 TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
-	temperature FLOAT, 
-	pressure FLOAT, 
-	cloud_cover FLOAT, 
-	humidity INTEGER, 
-	wind_direction INTEGER, 
-	wind_speed FLOAT, 
-	wind_gust FLOAT, 
-	daily_precipitation FLOAT, 
-	PRIMARY KEY (id)
-)
-
-
-2025-03-10 20:56:18,029 - sqlalchemy.engine.Engine - INFO - [no key 0.00011s] {}
-2025-03-10 20:56:18,044 - sqlalchemy.engine.Engine - INFO - COMMIT
-2025-03-10 20:56:18,045 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
-2025-03-10 20:56:18,048 - sqlalchemy.engine.Engine - INFO - SELECT DISTINCT weather_comp.fact_weather.source 
-FROM weather_comp.fact_weather
-2025-03-10 20:56:18,048 - sqlalchemy.engine.Engine - INFO - [generated in 0.00020s] {}
-2025-03-10 20:56:18,051 - sqlalchemy.engine.Engine - INFO - COMMIT
-2025-03-10 20:56:18,053 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
-2025-03-10 20:56:18,054 - sqlalchemy.engine.Engine - INFO - SELECT s1.source AS source1, s2.source AS source2, s1.location_id, s1.date AS date1, s2.date AS date2, s1.temperature - s2.temperature AS temperature 
+2025-03-17 14:09:04,043 - sqlalchemy.engine.Engine - INFO - [cached since 0.004979s ago] {'table_name': 'dim_location', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
+2025-03-17 14:09:04,044 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-03-17 14:09:04,045 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-03-17 14:09:04,047 - sqlalchemy.engine.Engine - INFO - SELECT s1.source AS source1, s2.source AS source2, s1.location_id, s1.date AS date1, s2.date AS date2, s1.temperature - s2.temperature AS temperature 
 FROM weather_comp.fact_weather AS s1, weather_comp.fact_weather AS s2 
 WHERE s1.source = %(source_1)s AND date_trunc(%(date_trunc_1)s, s1.date) = date_trunc(%(date_trunc_2)s, s2.date) AND s1.id != s2.id
-2025-03-10 20:56:18,054 - sqlalchemy.engine.Engine - INFO - [generated in 0.00017s] {'source_1': 'https://ambientweather.net', 'date_trunc_1': 'hour', 'date_trunc_2': 'hour'}
-2025-03-10 20:56:18,057 - sqlalchemy.engine.Engine - INFO - COMMIT
-2025-03-10 20:56:18,281 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
-2025-03-10 20:56:18,332 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+2025-03-17 14:09:04,047 - sqlalchemy.engine.Engine - INFO - [generated in 0.00014s] {'source_1': 'https://ambientweather.net', 'date_trunc_1': 'hour', 'date_trunc_2': 'hour'}
+2025-03-17 14:09:04,056 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-03-17 14:09:04,309 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-03-17 14:09:04,357 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
 FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
 WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_namespace.nspname = %(nspname_1)s
-2025-03-10 20:56:18,332 - sqlalchemy.engine.Engine - INFO - [cached since 0.3096s ago] {'table_name': 'source_comparison', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
-2025-03-10 20:56:18,335 - sqlalchemy.engine.Engine - INFO - INSERT INTO weather_comp.source_comparison (source1, source2, location_id, date1, date2, temperature) VALUES (%(source1__0)s, %(source2__0)s, %(location_id__0)s, %(date1__0)s, %(date2__0)s, %(temperature__0)s), (%(source1__1)s, %(source2__1)s, %(loca ... 675 characters truncated ... (%(source1__8)s, %(source2__8)s, %(location_id__8)s, %(date1__8)s, %(date2__8)s, %(temperature__8)s)
-2025-03-10 20:56:18,335 - sqlalchemy.engine.Engine - INFO - [generated in 0.00007s (insertmanyvalues) 1/1 (unordered)] {'location_id__0': 1, 'temperature__0': 2.4000000000000057, 'date2__0': datetime.datetime(2025, 3, 7, 19, 0), 'source2__0': 'https://api.weather.gov', 'date1__0': datetime.datetime(2025, 3, 7, 19, 5), 'source1__0': 'https://ambientweather.net', 'location_id__1': 1, 'temperature__1': 3.4000000000000057, 'date2__1': datetime.datetime(2025, 3, 10, 21, 0), 'source2__1': 'https://api.weather.gov', 'date1__1': datetime.datetime(2025, 3, 10, 21, 16), 'source1__1': 'https://ambientweather.net', 'location_id__2': 1, 'temperature__2': 2.4000000000000057, 'date2__2': datetime.datetime(2025, 3, 7, 19, 0), 'source2__2': 'https://api.weather.gov', 'date1__2': datetime.datetime(2025, 3, 7, 19, 5), 'source1__2': 'https://ambientweather.net', 'location_id__3': 1, 'temperature__3': 3.4000000000000057, 'date2__3': datetime.datetime(2025, 3, 10, 21, 0), 'source2__3': 'https://api.weather.gov', 'date1__3': datetime.datetime(2025, 3, 10, 21, 16), 'source1__3': 'https://ambientweather.net', 'location_id__4': 1, 'temperature__4': 2.4000000000000057, 'date2__4': datetime.datetime(2025, 3, 7, 19, 0), 'source2__4': 'https://api.weather.gov', 'date1__4': datetime.datetime(2025, 3, 7, 19, 5), 'source1__4': 'https://ambientweather.net', 'location_id__5': 1, 'temperature__5': 3.4000000000000057, 'date2__5': datetime.datetime(2025, 3, 10, 21, 0), 'source2__5': 'https://api.weather.gov', 'date1__5': datetime.datetime(2025, 3, 10, 21, 16), 'source1__5': 'https://ambientweather.net', 'location_id__6': 1, 'temperature__6': 2.4000000000000057, 'date2__6': datetime.datetime(2025, 3, 7, 19, 0), 'source2__6': 'https://api.weather.gov', 'date1__6': datetime.datetime(2025, 3, 7, 19, 5), 'source1__6': 'https://ambientweather.net', 'location_id__7': 1, 'temperature__7': 3.4000000000000057, 'date2__7': datetime.datetime(2025, 3, 10, 21, 0), 'source2__7': 'https://api.weather.gov', 'date1__7': datetime.datetime(2025, 3, 10, 21, 16), 'source1__7': 'https://ambientweather.net', 'location_id__8': 1, 'temperature__8': 3.4000000000000057, 'date2__8': datetime.datetime(2025, 3, 10, 21, 0), 'source2__8': 'https://api.weather.gov', 'date1__8': datetime.datetime(2025, 3, 10, 21, 16), 'source1__8': 'https://ambientweather.net'}
-2025-03-10 20:56:18,337 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-03-17 14:09:04,357 - sqlalchemy.engine.Engine - INFO - [cached since 0.3189s ago] {'table_name': 'source_comparison', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'weather_comp'}
+2025-03-17 14:09:04,361 - sqlalchemy.engine.Engine - INFO - INSERT INTO weather_comp.source_comparison (source1, source2, location_id, date1, date2, temperature) VALUES (%(source1__0)s, %(source2__0)s, %(location_id__0)s, %(date1__0)s, %(date2__0)s, %(temperature__0)s), (%(source1__1)s, %(source2__1)s, %(loca ... 777 characters truncated ... (%(source1__9)s, %(source2__9)s, %(location_id__9)s, %(date1__9)s, %(date2__9)s, %(temperature__9)s)
+2025-03-17 14:09:04,361 - sqlalchemy.engine.Engine - INFO - [generated in 0.00008s (insertmanyvalues) 1/1 (unordered)] {'temperature__0': 2.4000000000000057, 'source1__0': 'https://ambientweather.net', 'date1__0': datetime.datetime(2025, 3, 7, 19, 5), 'location_id__0': 1, 'source2__0': 'https://api.weather.gov', 'date2__0': datetime.datetime(2025, 3, 7, 19, 0), 'temperature__1': 3.4000000000000057, 'source1__1': 'https://ambientweather.net', 'date1__1': datetime.datetime(2025, 3, 10, 21, 16), 'location_id__1': 1, 'source2__1': 'https://api.weather.gov', 'date2__1': datetime.datetime(2025, 3, 10, 21, 0), 'temperature__2': 2.4000000000000057, 'source1__2': 'https://ambientweather.net', 'date1__2': datetime.datetime(2025, 3, 7, 19, 5), 'location_id__2': 1, 'source2__2': 'https://api.weather.gov', 'date2__2': datetime.datetime(2025, 3, 7, 19, 0), 'temperature__3': 3.4000000000000057, 'source1__3': 'https://ambientweather.net', 'date1__3': datetime.datetime(2025, 3, 10, 21, 16), 'location_id__3': 1, 'source2__3': 'https://api.weather.gov', 'date2__3': datetime.datetime(2025, 3, 10, 21, 0), 'temperature__4': 2.4000000000000057, 'source1__4': 'https://ambientweather.net', 'date1__4': datetime.datetime(2025, 3, 7, 19, 5), 'location_id__4': 1, 'source2__4': 'https://api.weather.gov', 'date2__4': datetime.datetime(2025, 3, 7, 19, 0), 'temperature__5': 3.4000000000000057, 'source1__5': 'https://ambientweather.net', 'date1__5': datetime.datetime(2025, 3, 10, 21, 16), 'location_id__5': 1, 'source2__5': 'https://api.weather.gov', 'date2__5': datetime.datetime(2025, 3, 10, 21, 0), 'temperature__6': 2.4000000000000057, 'source1__6': 'https://ambientweather.net', 'date1__6': datetime.datetime(2025, 3, 7, 19, 5), 'location_id__6': 1, 'source2__6': 'https://api.weather.gov', 'date2__6': datetime.datetime(2025, 3, 7, 19, 0), 'temperature__7': 3.4000000000000057, 'source1__7': 'https://ambientweather.net', 'date1__7': datetime.datetime(2025, 3, 10, 21, 16), 'location_id__7': 1, 'source2__7': 'https://api.weather.gov', 'date2__7': datetime.datetime(2025, 3, 10, 21, 0), 'temperature__8': 3.4000000000000057, 'source1__8': 'https://ambientweather.net', 'date1__8': datetime.datetime(2025, 3, 10, 21, 16), 'location_id__8': 1, 'source2__8': 'https://api.weather.gov', 'date2__8': datetime.datetime(2025, 3, 10, 21, 0), 'temperature__9': 1.7000000000000028, 'source1__9': 'https://ambientweather.net', 'date1__9': datetime.datetime(2025, 3, 17, 18, 4), 'location_id__9': 1, 'source2__9': 'https://api.weather.gov', 'date2__9': datetime.datetime(2025, 3, 17, 18, 0)}
+2025-03-17 14:09:04,364 - sqlalchemy.engine.Engine - INFO - COMMIT

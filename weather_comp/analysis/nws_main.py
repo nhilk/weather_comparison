@@ -2,7 +2,8 @@ import toml
 import logging
 import polars as pl
 import sys
-sys.path.append('weather_comp')
+import os
+sys.path.append(os.path.abspath(""))
 from database import DB
 from api.nws_api import get_nws_forecast, transform_data_facts
 import os
@@ -14,7 +15,7 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 def get_config():
-    config = toml.load('weather_comp/config.toml')
+    config = toml.load('config.toml')
     return config
 
 def main():
@@ -28,7 +29,7 @@ def main():
         'latitude': config['lat'],
         'longitude': config['long']
     })
-    location_id = database.write_to_dim_location(location_data)
+    location_id = database.write_to_DimLocation(location_data)
     data = get_nws_forecast(config['lat'],config['long'])
     database.write_to_api_table(data['source'], data)
     transformed_data = transform_data_facts(data, location_id)

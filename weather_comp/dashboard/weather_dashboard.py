@@ -25,7 +25,6 @@ db = DB(get_config())
 df = db.read_from_table(table = 'source_comparison')
 app = Dash()
 
-# Requires Dash 2.17.0 or later
 app.layout = [
     html.H1(children='Title of Dash App', style={'textAlign':'center'}),
     dcc.Dropdown(df.get_column('source1').unique().to_list(), id='dropdown1'),
@@ -40,8 +39,11 @@ app.layout = [
     
 )
 def update_graph(source1, source2):
-    dff = df.filter((pl.col('source1') == source1) & (pl.col('source2') == source2))
-    return px.line(dff, x='date1', y='temperature')
+    if source2 is None:
+        dff = df.filter((pl.col('source1') == source1))
+    else:
+        dff = df.filter((pl.col('source1') == source1) & (pl.col('source2') == source2))
+    return px.scatter(dff, x='date1', y='temperature')
 
 if __name__ == '__main__':
     app.run(debug=True) 

@@ -6,7 +6,8 @@ import polars as pl
 import asyncio
 import json
 import sys
-sys.path.append('weather_comp')
+import os
+sys.path.append(os.path.abspath(""))
 from api.ambient_weather_api import get_weather_station_data, transform_data_facts
 from database import DB
 
@@ -18,7 +19,7 @@ logging.basicConfig(
 )
 
 def get_config():
-    config = toml.load('weather_comp/config.toml')
+    config = toml.load('config.toml')
     return config
 
 async def main():
@@ -34,7 +35,7 @@ async def main():
         'latitude': config['lat'],
         'longitude': config['long']
     })
-    location_id = database.write_to_dim_location(location_data)
+    location_id = database.write_to_DimLocation(location_data)
     transformed_data = transform_data_facts(data, location_id)
     database.write_to_fact_weather(transformed_data)
 if __name__ == "__main__":
