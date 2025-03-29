@@ -2,10 +2,6 @@ import toml
 import logging
 import polars as pl
 import asyncio
-import json
-import sys
-import os
-sys.path.append(os.path.abspath(""))
 from api.ambient_weather_api import get_weather_station_data, transform_data_facts
 from database import DB
 

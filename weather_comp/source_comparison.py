@@ -1,7 +1,3 @@
-import sys
-import os
-
-sys.path.append(os.path.abspath(""))
 from database.db import DB
 from database.models import FactWeather, SourceComparison
 from sqlalchemy import select

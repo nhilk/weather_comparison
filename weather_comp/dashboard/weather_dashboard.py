@@ -1,9 +1,6 @@
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import polars as pl
-import sys
-import os
-sys.path.append(os.path.abspath(""))
 from database.db import DB
 import logging
 import toml
