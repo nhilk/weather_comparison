@@ -8,10 +8,11 @@ else
     exit 1
 fi
 
+echo directory: $(pwd)
 # Run the Python script
-if [ -f nws_main.py ]; then
-    python nws_main.py
+if [ -f ambient_main.py ]; then
+    python ambient_main.py
 else
-    echo "nws_main.py not found. Please ensure the script exists in the correct location."
+    echo "ambient_main.py not found. Please ensure the script exists in the correct location."
     exit 1
 fi
