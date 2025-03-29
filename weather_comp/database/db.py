@@ -89,7 +89,7 @@ class DB:
                 )
             session.add(api_data_entry)
 
-    def write_to_fact_weather(self, data: pl.DataFrame) -> None:
+    def write_to_FactWeather(self, data: pl.DataFrame) -> None:
         """
         Writes weather data to the FactWeather table.
 

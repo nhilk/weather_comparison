@@ -1,5 +1,3 @@
-
-
 import toml
 import logging
 import polars as pl
@@ -37,6 +35,7 @@ async def main():
     })
     location_id = database.write_to_DimLocation(location_data)
     transformed_data = transform_data_facts(data, location_id)
-    database.write_to_fact_weather(transformed_data)
+    database.write_to_FactWeather(transformed_data)
+
 if __name__ == "__main__":
     asyncio.run(main())

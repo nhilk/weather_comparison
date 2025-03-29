@@ -5,10 +5,12 @@ import sys
 
 sys.path.append(os.path.abspath(""))
 from database.db import DB
-from database.models import ApiData, fact_weather, dim_location
+from database.models import ApiData, FactWeather, DimLocation, SourceComparison
 import polars as pl
 import datetime
 import logging
+import toml
+from sqlalchemy import select
 
 logging.basicConfig(
     filename="logs/weather_comparison_db_testing.log",  # Specify the log file name
@@ -20,11 +22,10 @@ logging.basicConfig(
 
 @pytest.fixture(scope="module")
 def mock_config():
-    return {
-        "database": {
-            "db_url": "postgresql://hilkshake:SomethingIsWrong@0.0.0.0:5432/test_weather_db"
-        }
-    }
+    config = toml.load('config.toml')
+    test_config = {'database': {}}
+    test_config['database']['db_url'] = config['database']['test_db_url']
+    return test_config
 
 
 @pytest.fixture
@@ -68,12 +69,13 @@ def test_write_to_api_table_negative(test_db):
         test_db.write_to_api_table(
             "https://api.weather.gov", "This is not a dictionary"
         )
-    assert "cannont write to api table" in str(context.value)
+    assert "cannot write to api table" in str(context.value)
 
 
 def test_write_to_api_table(test_db, time, mock_data):
     test_db.write_to_api_table("https://api.weather.gov", mock_data, time)
-    data = test_db.read_from_api_table((ApiData.date == time))
+    select_statement = select(ApiData).where(ApiData.date == time)
+    data = test_db.read_from_table(select_statement)
     df = pl.DataFrame(data)
     assert df.shape[0] == 1
 
@@ -86,16 +88,17 @@ def test_check_existing_location_negative(test_db):
 
 
 def test_write_to_dim_location(test_db, mock_location_data):
-    loc_id = test_db.write_to_dim_location(mock_location_data)
+    loc_id = test_db.write_to_DimLocation(mock_location_data)
     print(f"loc_id = {loc_id}")
-    data = test_db.read_from_dim_location(dim_location.latitude == 10.12121)
+    select_statement = select(DimLocation).where(DimLocation.id == loc_id)
+    data = test_db.read_from_table(select_statement)
     df = pl.DataFrame(data)
     print(f"data = {data}, df = {df}")
     assert df.shape[0] == 1
 
 
 def test_check_existing_location(test_db, mock_location_data):
-    loc_id = test_db.write_to_dim_location(mock_location_data)
+    loc_id = test_db.write_to_DimLocation(mock_location_data)
     assert test_db.check_existing_location(10.12121, -90.22222) == loc_id
 
 
@@ -110,6 +113,7 @@ def test_write_to_fact_weather(test_db, time, mock_data):
             "cloud_cover": [None, None],
         }
     )
-    test_db.write_to_fact_weather(df)
-    df = pl.DataFrame(test_db.read_from_fact_weather(fact_weather.date == time))
+    test_db.write_to_FactWeather(df)
+    select_statement = select(FactWeather).where(FactWeather.date == time)
+    df = test_db.read_from_table(select_statement)
     assert df.shape[0] == 2
